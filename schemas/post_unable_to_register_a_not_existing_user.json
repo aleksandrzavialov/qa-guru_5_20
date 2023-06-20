@@ -1,0 +1,13 @@
+{
+    "type": "object",
+    "default": {},
+    "required": [
+        "error"
+    ],
+    "properties": {
+        "error": {
+            "type": "string",
+            "default": ""
+        }
+    }
+}

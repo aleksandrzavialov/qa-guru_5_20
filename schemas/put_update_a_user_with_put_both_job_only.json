@@ -1,0 +1,18 @@
+{
+    "type": "object",
+    "default": {},
+    "required": [
+        "job",
+        "updatedAt"
+    ],
+    "properties": {
+        "job": {
+            "type": "string",
+            "default": ""
+        },
+        "updatedAt": {
+            "type": "string",
+            "default": ""
+        }
+    }
+}
