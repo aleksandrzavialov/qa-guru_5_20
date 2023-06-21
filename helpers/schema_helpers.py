@@ -1,4 +1,5 @@
 import json
+import logging
 import os.path
 
 import allure
@@ -28,16 +29,17 @@ class CustomSession(Session):
     ) -> Response:
         response = super(CustomSession, self).request(method=method, url=self.base_url + url, *args, **kwargs)
         curl_message = curlify.to_curl(response.request)
-
+        status_code = response.status_code
+        logging.info(f'Response Code: {status_code} for \n{curl_message}')
         if 'application/json' in response.headers.get('Content-Type', ''):
             response_attached = json.dumps(response.json(), indent=4)
         else:
             response_attached = response.text
 
         with step(f'{method} {url}'):
-            allure.attach(body=f'Response code: {response.status_code} for CURL message: {curl_message}', name='Request curl', attachment_type=AttachmentType.TEXT, extension='txt')
+            allure.attach(body=f'Response code: {status_code} for CURL message: {curl_message}', name='Request curl', attachment_type=AttachmentType.TEXT, extension='txt')
 
-        with step(f'Response'):
+        with step('Response'):
             allure.attach(body=response_attached, name='Response', attachment_type=AttachmentType.TEXT, extension='txt')
             return response
 
